@@ -1,14 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+
 import Button from './Button';
 
 const Wrapper = styled.main`
   max-width: 110rem;
   margin: 0 auto;
 `;
-
-const OuterWrapper = styled.div``;
 
 const InnerWrapper = styled.ul`
   background-color: #f5f6f9;
@@ -30,11 +31,15 @@ const ListItem = styled.li`
 `;
 
 const Recipes = () => {
+  const dispatch = useDispatch();
+  const recipes = useSelector((state) => state.recipes);
+
   return (
     <Wrapper>
-      <h1>Przepisy</h1>
-      <OuterWrapper>
-        <div style={{ marginTop: '4rem' }}>
+      <h1 style={{ marginBottom: '4rem' }}>Przepisy</h1>
+      {!recipes.length && <span>Dodaj nowe przepisy...</span>}
+      {recipes.map((recipe) => (
+        <div>
           <div
             style={{
               display: 'flex',
@@ -42,18 +47,25 @@ const Recipes = () => {
               alignItems: 'center',
             }}
           >
-            <h3>Przepis na zupę, potrzebne składniki</h3>
-            <Button>Usuń przepis</Button>
+            <h3>{recipe.name}, potrzebne składniki</h3>
+            <Button
+              onClick={() =>
+                dispatch({
+                  type: 'DELETE_ITEM',
+                  payload: recipe.id,
+                })
+              }
+            >
+              Usuń przepis
+            </Button>
           </div>
           <InnerWrapper>
-            <ListItem>Banan</ListItem>
-            <ListItem>Banan</ListItem>
-            <ListItem>Banan</ListItem>
-            <ListItem>Banan</ListItem>
-            <ListItem>Banan</ListItem>
+            {recipe.ingredients.map((el) => (
+              <ListItem>{el.content}</ListItem>
+            ))}
           </InnerWrapper>
         </div>
-      </OuterWrapper>
+      ))}
     </Wrapper>
   );
 };

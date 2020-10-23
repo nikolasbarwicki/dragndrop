@@ -1,11 +1,16 @@
 const initialState = {
-  items: [
-    { id: '1', content: 'banan' },
-    { id: '2', content: 'marchewka' },
-    { id: '3', content: 'burak' },
-    { id: '4', content: 'jajko' },
-    { id: '5', content: 'ziemniak' },
-  ],
+  ingredientsColumn: {
+    items: [
+      { id: '1', content: 'banan' },
+      { id: '2', content: 'marchewka' },
+      { id: '3', content: 'burak' },
+      { id: '4', content: 'jajko' },
+      { id: '5', content: 'ziemniak' },
+    ],
+  },
+  recipeColumn: {
+    items: [],
+  },
 };
 
 export default (state = initialState, { type, payload }) => {

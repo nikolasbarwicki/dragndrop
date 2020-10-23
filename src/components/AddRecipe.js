@@ -3,8 +3,12 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
 
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+
 import { onDragEnd } from '../utils/onDragEnd';
-import ListItem from './ListItem';
+import DraggableItem from './DraggableItem';
+import Button from './Button';
 
 const Wrapper = styled.main`
   max-width: 80rem;
@@ -16,49 +20,50 @@ const Wrapper = styled.main`
   grid-gap: 2rem;
 `;
 
-const Button = styled.button`
-  background-color: #2e2545;
-  width: 15rem;
-  padding: 2rem;
-  color: white;
-  border: none;
-  border-radius: 1.5rem;
-  outline: none;
-  cursor: pointer;
-
-  justify-self: end;
-  grid-column: 1 / span 2;
-`;
-
-const InnerWrapper = styled.div`
+const DropArea = styled.div`
   background-color: #f5f6f9;
   padding: 2rem;
   height: 50rem;
   border-radius: 1.5rem;
 `;
 
-const columnsFromBackend = {
-  ingredientsColumn: {
-    items: [
-      { id: '1', content: 'banan' },
-      { id: '2', content: 'marchewka' },
-      { id: '3', content: 'burak' },
-      { id: '4', content: 'jajko' },
-      { id: '5', content: 'ziemniak' },
-    ],
-  },
-  recipeColumn: {
-    items: [],
-  },
-};
+const Input = styled.input`
+  border: none;
+  font-size: 2rem;
+  font-weight: bold;
+  outline: none;
+`;
 
 const AddRecipe = () => {
+  const dispatch = useDispatch();
+  const columnsFromBackend = useSelector((state) => state.columns);
+
   const [columns, setColumns] = useState(columnsFromBackend);
+  const [recipeName, setRecipeName] = useState('');
+
+  const addRecipe = () => {
+    if (columns.recipeColumn.items.length) {
+      dispatch({
+        type: 'ADD_ITEM',
+        payload: {
+          id: uuidv4(),
+          name: recipeName || 'Przepis',
+          ingredients: columns.recipeColumn.items,
+        },
+      });
+      setColumns(columnsFromBackend);
+      setRecipeName('');
+    }
+  };
 
   return (
     <Wrapper>
-      <h2>Skladniki</h2>
-      <h2>Nazwa przepisu</h2>
+      <h2>Składniki</h2>
+      <Input
+        value={recipeName}
+        onChange={(e) => setRecipeName(e.target.value)}
+        placeholder="Podaj nazwę przepisu"
+      />
       <DragDropContext
         onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
       >
@@ -68,13 +73,13 @@ const AddRecipe = () => {
               <Droppable droppableId={columnId} key={columnId}>
                 {(provided, snapshot) => {
                   return (
-                    <InnerWrapper
+                    <DropArea
                       {...provided.droppableProps}
                       ref={provided.innerRef}
                     >
                       {column.items.map((item, index) => {
                         return (
-                          <ListItem
+                          <DraggableItem
                             id={item.id}
                             index={index}
                             content={item.content}
@@ -82,7 +87,7 @@ const AddRecipe = () => {
                         );
                       })}
                       {provided.placeholder}
-                    </InnerWrapper>
+                    </DropArea>
                   );
                 }}
               </Droppable>
@@ -90,7 +95,12 @@ const AddRecipe = () => {
           );
         })}
       </DragDropContext>
-      <Button>Dodaj przepis</Button>
+      <Button
+        onClick={() => addRecipe()}
+        style={{ justifySelf: 'end', gridColumn: ' 1 / span 2' }}
+      >
+        Dodaj przepis
+      </Button>
     </Wrapper>
   );
 };

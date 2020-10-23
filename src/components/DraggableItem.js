@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
 
-const StyledListItem = styled.div`
+const ListItem = styled.div`
   background-color: #dee1eb;
   padding: 1rem 1.5rem;
   border-radius: 1rem;
@@ -11,12 +11,12 @@ const StyledListItem = styled.div`
   margin-bottom: 1rem;
 `;
 
-const ListItem = (props) => {
+const DraggableItem = (props) => {
   return (
     <Draggable key={props.id} draggableId={props.id} index={props.index}>
       {(provided, snapshot) => {
         return (
-          <StyledListItem
+          <ListItem
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
@@ -25,11 +25,11 @@ const ListItem = (props) => {
             }}
           >
             {props.content}
-          </StyledListItem>
+          </ListItem>
         );
       }}
     </Draggable>
   );
 };
 
-export default ListItem;
+export default DraggableItem;
