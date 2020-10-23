@@ -40,11 +40,11 @@ const InnerWrapper = styled.div`
 const columnsFromBackend = {
   ingredientsColumn: {
     items: [
-      { id: uuidv4(), content: 'banan' },
-      { id: uuidv4(), content: 'marchewka' },
-      { id: uuidv4(), content: 'burak' },
-      { id: uuidv4(), content: 'jajko' },
-      { id: uuidv4(), content: 'ziemniak' },
+      { id: '1', content: 'banan' },
+      { id: '2', content: 'marchewka' },
+      { id: '3', content: 'burak' },
+      { id: '4', content: 'jajko' },
+      { id: '5', content: 'ziemniak' },
     ],
   },
   recipeColumn: {
