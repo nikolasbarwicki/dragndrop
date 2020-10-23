@@ -1,49 +1,25 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import GlobalStyle from './styles/GlobalStyle';
+import Navigation from './components/Navigation';
+import AddRecipe from './components/AddRecipe';
+import Recipes from './components/Recipes';
 
 const App = () => {
   return (
-    <>
+    <Router>
       <GlobalStyle />
-      <Router>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Twoje przepisy</Link>
-            </li>
-            <li>
-              <Link to="/add-recipe">Dodaj przepis</Link>
-            </li>
-          </ul>
-        </nav>
-        <Switch>
-          <Route path="/" exact>
-            <main>
-              <div>
-                <h2>Składniki</h2>
-                <div>
-                  <ul>
-                    <li>Marchewka</li>
-                    <li>Ogórek</li>
-                    <li>Banan</li>
-                  </ul>
-                </div>
-              </div>
-              <div>
-                <h2>Nazwa przepisu</h2>
-                <div></div>
-                <button>Dodaj przepis</button>
-              </div>
-            </main>
-          </Route>
-          <Route path="/add-recipe">
-            <h1>Add recipe</h1>
-          </Route>
-        </Switch>
-      </Router>
-    </>
+      <Navigation />
+      <Switch>
+        <Route path="/" exact>
+          <Recipes />
+        </Route>
+        <Route path="/add-recipe">
+          <AddRecipe />
+        </Route>
+      </Switch>
+    </Router>
   );
 };
 
