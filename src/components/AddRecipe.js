@@ -1,51 +1,96 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
 
-import Button from './Button';
+import { onDragEnd } from '../utils/onDragEnd';
 import ListItem from './ListItem';
 
 const Wrapper = styled.main`
-  display: flex;
-  justify-content: center;
-  height: calc(100vh - 9.8rem);
+  max-width: 80rem;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: min-content 1fr min-content;
+  flex-direction: column;
+  grid-gap: 2rem;
 `;
 
-const OuterWrapper = styled.div`
-  width: 35rem;
-  margin: 4rem;
-  height: 60rem;
+const Button = styled.button`
+  background-color: #2e2545;
+  width: 15rem;
+  padding: 2rem;
+  color: white;
+  border: none;
+  border-radius: 1.5rem;
+  outline: none;
+  cursor: pointer;
+
+  justify-self: end;
+  grid-column: 1 / span 2;
 `;
 
 const InnerWrapper = styled.div`
   background-color: #f5f6f9;
   padding: 2rem;
   height: 50rem;
-  margin: 2rem 0;
   border-radius: 1.5rem;
-
-  li {
-    margin-bottom: 1rem;
-  }
 `;
 
+const columnsFromBackend = {
+  ingredientsColumn: {
+    items: [
+      { id: uuidv4(), content: 'banan' },
+      { id: uuidv4(), content: 'marchewka' },
+      { id: uuidv4(), content: 'burak' },
+      { id: uuidv4(), content: 'jajko' },
+      { id: uuidv4(), content: 'ziemniak' },
+    ],
+  },
+  recipeColumn: {
+    items: [],
+  },
+};
+
 const AddRecipe = () => {
+  const [columns, setColumns] = useState(columnsFromBackend);
+
   return (
     <Wrapper>
-      <OuterWrapper>
-        <h2>Składniki</h2>
-        <InnerWrapper>
-          <ul>
-            <ListItem>Marchewka</ListItem>
-            <ListItem>Ogórek</ListItem>
-            <ListItem>Banan</ListItem>
-          </ul>
-        </InnerWrapper>
-      </OuterWrapper>
-      <OuterWrapper>
-        <h2>Nazwa przepisu</h2>
-        <InnerWrapper></InnerWrapper>
-        <Button>Dodaj przepis</Button>
-      </OuterWrapper>
+      <h2>Skladniki</h2>
+      <h2>Nazwa przepisu</h2>
+      <DragDropContext
+        onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
+      >
+        {Object.entries(columns).map(([columnId, column]) => {
+          return (
+            <div key={columnId}>
+              <Droppable droppableId={columnId} key={columnId}>
+                {(provided, snapshot) => {
+                  return (
+                    <InnerWrapper
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                    >
+                      {column.items.map((item, index) => {
+                        return (
+                          <ListItem
+                            id={item.id}
+                            index={index}
+                            content={item.content}
+                          />
+                        );
+                      })}
+                      {provided.placeholder}
+                    </InnerWrapper>
+                  );
+                }}
+              </Droppable>
+            </div>
+          );
+        })}
+      </DragDropContext>
+      <Button>Dodaj przepis</Button>
     </Wrapper>
   );
 };

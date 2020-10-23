@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Button from './Button';
-import ListItem from './ListItem';
 
 const Wrapper = styled.main`
   max-width: 110rem;
@@ -19,6 +18,15 @@ const InnerWrapper = styled.ul`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-gap: 1rem;
+`;
+
+const ListItem = styled.li`
+  background-color: #dee1eb;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  font-weight: 600;
+  list-style: none;
+  margin-bottom: 1rem;
 `;
 
 const Recipes = () => {
