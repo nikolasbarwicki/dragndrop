@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
+import { FiEdit, FiTrash2 } from 'react-icons/fi';
 
 import { connect } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { getRecipes, getRecipe, deleteRecipe } from '../actions/recipes';
-
-import Button from './Button';
 
 const Wrapper = styled.main`
   max-width: 110rem;
@@ -32,6 +31,31 @@ const ListItem = styled.li`
   margin-bottom: 1rem;
 `;
 
+const IconsWrapper = styled.div`
+  display: flex;
+`;
+
+const ButtonIcon = styled.button`
+  width: 4rem;
+  height: 4rem;
+  outline: none;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  color: white;
+  background-color: #2e2545;
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 1rem;
+
+  :hover {
+    color: #2e2545;
+    background-color: #dee1eb;
+  }
+`;
+
 const Recipes = ({ getRecipes, deleteRecipe, getRecipe, history }) => {
   useEffect(() => {
     getRecipes();
@@ -54,14 +78,14 @@ const Recipes = ({ getRecipes, deleteRecipe, getRecipe, history }) => {
               }}
             >
               <h3>{recipe.name}, potrzebne składniki</h3>
-              <div>
-                <Button onClick={() => getRecipe(recipe._id, history)}>
-                  Edytuj przepis
-                </Button>
-                <Button onClick={() => deleteRecipe(recipe._id)}>
-                  Usuń przepis
-                </Button>
-              </div>
+              <IconsWrapper>
+                <ButtonIcon onClick={() => getRecipe(recipe._id, history)}>
+                  <FiEdit />
+                </ButtonIcon>
+                <ButtonIcon onClick={() => deleteRecipe(recipe._id)}>
+                  <FiTrash2 />
+                </ButtonIcon>
+              </IconsWrapper>
             </div>
             <InnerWrapper>
               {recipe.ingredients.map((el) => (
