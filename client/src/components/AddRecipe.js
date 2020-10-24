@@ -55,17 +55,25 @@ const AddRecipe = ({ createRecipe, setAlert }) => {
   const [columns, setColumns] = useState(initialState);
   const [recipeName, setRecipeName] = useState('');
 
-  const addRecipe = () => {
-    if (columns.recipeColumn.items.length) {
-      createRecipe({
-        name: recipeName || 'Przepis',
-        ingredients: columns.recipeColumn.items,
-      });
-
-      setColumns(initialState);
-      setRecipeName('');
-      setAlert('Przepis dodany pomyślnie', 'success');
+  const onSubmit = () => {
+    if (!columns.recipeColumn.items.length) {
+      setAlert('Dodaj składniki do przepisu', 'danger');
+      return;
     }
+
+    if (!recipeName) {
+      setAlert('Nazwij swój przepis', 'danger');
+      return;
+    }
+
+    createRecipe({
+      name: recipeName,
+      ingredients: columns.recipeColumn.items,
+    });
+
+    setColumns(initialState);
+    setRecipeName('');
+    setAlert('Przepis dodany pomyślnie', 'success');
   };
 
   return (
@@ -109,7 +117,7 @@ const AddRecipe = ({ createRecipe, setAlert }) => {
         })}
       </DragDropContext>
       <Button
-        onClick={() => addRecipe()}
+        onClick={() => onSubmit()}
         style={{ justifySelf: 'end', gridColumn: ' 1 / span 2' }}
       >
         Dodaj przepis

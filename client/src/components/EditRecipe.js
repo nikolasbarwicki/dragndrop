@@ -70,18 +70,24 @@ const EditRecipe = ({ updateRecipe, setAlert, history }) => {
   const [columns, setColumns] = useState(columnsContent);
   const [recipeName, setRecipeName] = useState(name);
 
-  const editRecipe = (recipeId) => {
-    if (columns.recipeColumn.items.length) {
-      updateRecipe(recipeId, {
-        name: recipeName || 'Przepis',
-        ingredients: columns.recipeColumn.items,
-      });
-
-      //   setColumns(columnsFromBackend);
-      setRecipeName('');
-      setAlert('Przepis zaktualizowany', 'success');
-      history.push('/');
+  const onSubmit = (recipeId) => {
+    if (!columns.recipeColumn.items.length) {
+      setAlert('Dodaj składniki do przepisu', 'danger');
+      return;
     }
+
+    if (!recipeName) {
+      setAlert('Nazwij swój przepis', 'danger');
+      return;
+    }
+
+    updateRecipe(recipeId, {
+      name: recipeName,
+      ingredients: columns.recipeColumn.items,
+    });
+
+    setAlert('Przepis zaktualizowany', 'success');
+    history.push('/');
   };
 
   return (
@@ -126,7 +132,7 @@ const EditRecipe = ({ updateRecipe, setAlert, history }) => {
           })}
       </DragDropContext>
       <Button
-        onClick={() => editRecipe(ID)}
+        onClick={() => onSubmit(ID)}
         style={{ justifySelf: 'end', gridColumn: ' 1 / span 2' }}
       >
         Edytuj przepis
