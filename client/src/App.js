@@ -9,6 +9,7 @@ import Navigation from './components/Navigation';
 import AddRecipe from './components/AddRecipe';
 import Recipes from './components/Recipes';
 import EditRecipe from './components/EditRecipe';
+import Alert from './components/Alert';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
       <Router>
         <GlobalStyle />
         <Navigation />
+        <Alert />
         <Switch>
           <Route path="/" exact>
             <Recipes />

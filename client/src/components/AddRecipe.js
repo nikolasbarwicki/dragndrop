@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { connect } from 'react-redux';
 import { createRecipe } from '../actions/recipes';
+import { setAlert } from '../actions/alert';
 
 import { onDragEnd } from '../utils/onDragEnd';
 import DraggableItem from './DraggableItem';
@@ -33,7 +34,7 @@ const Input = styled.input`
   outline: none;
 `;
 
-const AddRecipe = ({ createRecipe }) => {
+const AddRecipe = ({ createRecipe, setAlert }) => {
   const initialState = {
     ingredientsColumn: {
       items: [
@@ -61,6 +62,7 @@ const AddRecipe = ({ createRecipe }) => {
 
       setColumns(initialState);
       setRecipeName('');
+      setAlert('Przepis dodany pomyślnie', 'success');
     }
   };
 
@@ -114,4 +116,4 @@ const AddRecipe = ({ createRecipe }) => {
   );
 };
 
-export default connect(null, { createRecipe })(AddRecipe);
+export default connect(null, { createRecipe, setAlert })(AddRecipe);
