@@ -1,11 +1,13 @@
 import axios from 'axios';
 
+import { GET_RECIPE, GET_RECIPES } from '../actions/types';
+
 // Get one recipe
 export const getRecipe = (recipeId, history) => async (dispatch) => {
   const res = await axios.get(`/api/recipes/${recipeId}`);
 
   dispatch({
-    type: 'GET_RECIPE',
+    type: GET_RECIPE,
     payload: res.data.data,
   });
 
@@ -17,7 +19,7 @@ export const getRecipes = () => async (dispatch) => {
   const res = await axios.get(`/api/recipes`);
 
   dispatch({
-    type: 'GET_RECIPES',
+    type: GET_RECIPES,
     payload: res.data.data,
   });
 };
@@ -29,7 +31,7 @@ export const deleteRecipe = (recipeId) => async (dispatch) => {
   const res = await axios.get(`/api/recipes`);
 
   dispatch({
-    type: 'GET_RECIPES',
+    type: GET_RECIPES,
     payload: res.data.data,
   });
 };
@@ -47,7 +49,7 @@ export const createRecipe = (data) => async (dispatch) => {
   const res = await axios.get(`/api/recipes`);
 
   dispatch({
-    type: 'GET_RECIPES',
+    type: GET_RECIPES,
     payload: res.data.data,
   });
 };
@@ -65,7 +67,7 @@ export const updateRecipe = (recipeId, data) => async (dispatch) => {
   const res = await axios.get(`/api/recipes`);
 
   dispatch({
-    type: 'GET_RECIPES',
+    type: GET_RECIPES,
     payload: res.data.data,
   });
 };

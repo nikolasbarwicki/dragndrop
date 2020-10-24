@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const Wrapper = styled.div`
-  max-width: 60rem;
+  max-width: 50rem;
   margin: 2rem auto;
   border-radius: 1rem;
   padding: 2rem;
@@ -27,20 +27,21 @@ const Wrapper = styled.div`
   `}
 `;
 
-const Alert = ({ alerts }) =>
-  alerts !== null &&
-  alerts.length > 0 && (
-    <div>
-      {alerts.map((alert) => (
-        <Wrapper key={alert.id} role="alert" alertType={alert.alertType}>
-          {alert.message}
-        </Wrapper>
-      ))}
-    </div>
+const Alert = () => {
+  const alerts = useSelector((state) => state.alert);
+
+  return (
+    alerts !== null &&
+    alerts.length > 0 && (
+      <div>
+        {alerts.map((alert) => (
+          <Wrapper key={alert.id} role="alert" alertType={alert.alertType}>
+            {alert.message}
+          </Wrapper>
+        ))}
+      </div>
+    )
   );
+};
 
-const mapStateToProps = (state) => ({
-  alerts: state.alert,
-});
-
-export default connect(mapStateToProps, null)(Alert);
+export default Alert;

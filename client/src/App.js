@@ -5,11 +5,13 @@ import { Provider } from 'react-redux';
 import store from './store';
 
 import GlobalStyle from './styles/GlobalStyle';
+
 import Navigation from './components/Navigation';
-import AddRecipe from './components/AddRecipe';
-import Recipes from './components/Recipes';
-import EditRecipe from './components/EditRecipe';
 import Alert from './components/Alert';
+
+import AddRecipe from './views/AddRecipe';
+import Recipes from './views/Recipes';
+import EditRecipe from './views/EditRecipe';
 
 const App = () => {
   return (
@@ -19,15 +21,9 @@ const App = () => {
         <Navigation />
         <Alert />
         <Switch>
-          <Route path="/" exact>
-            <Recipes />
-          </Route>
-          <Route path="/add-recipe">
-            <AddRecipe />
-          </Route>
-          <Route path="/edit-recipe">
-            <EditRecipe />
-          </Route>
+          <Route path="/" exact component={Recipes} />
+          <Route path="/add-recipe" component={AddRecipe} />
+          <Route path="/edit-recipe" component={EditRecipe} />
         </Switch>
       </Router>
     </Provider>
