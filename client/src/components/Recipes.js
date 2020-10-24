@@ -6,6 +6,7 @@ import { FiEdit, FiTrash2 } from 'react-icons/fi';
 import { connect } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { getRecipes, getRecipe, deleteRecipe } from '../actions/recipes';
+import { setAlert } from '../actions/alert';
 
 const Wrapper = styled.main`
   max-width: 110rem;
@@ -56,7 +57,13 @@ const ButtonIcon = styled.button`
   }
 `;
 
-const Recipes = ({ getRecipes, deleteRecipe, getRecipe, history }) => {
+const Recipes = ({
+  getRecipes,
+  deleteRecipe,
+  getRecipe,
+  setAlert,
+  history,
+}) => {
   useEffect(() => {
     getRecipes();
   }, [getRecipes]);
@@ -82,7 +89,12 @@ const Recipes = ({ getRecipes, deleteRecipe, getRecipe, history }) => {
                 <ButtonIcon onClick={() => getRecipe(recipe._id, history)}>
                   <FiEdit />
                 </ButtonIcon>
-                <ButtonIcon onClick={() => deleteRecipe(recipe._id)}>
+                <ButtonIcon
+                  onClick={() => {
+                    deleteRecipe(recipe._id);
+                    setAlert('Przepis usunięty', 'danger');
+                  }}
+                >
                   <FiTrash2 />
                 </ButtonIcon>
               </IconsWrapper>
@@ -98,6 +110,6 @@ const Recipes = ({ getRecipes, deleteRecipe, getRecipe, history }) => {
   );
 };
 
-export default connect(null, { getRecipes, getRecipe, deleteRecipe })(
+export default connect(null, { getRecipes, getRecipe, deleteRecipe, setAlert })(
   withRouter(Recipes),
 );

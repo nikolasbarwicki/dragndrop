@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import _ from 'lodash';
 
 import { connect } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { updateRecipe } from '../actions/recipes';
+import { setAlert } from '../actions/alert';
 
 import { onDragEnd } from '../utils/onDragEnd';
 import DraggableItem from './DraggableItem';
@@ -35,7 +37,7 @@ const Input = styled.input`
   outline: none;
 `;
 
-const EditRecipe = ({ updateRecipe }) => {
+const EditRecipe = ({ updateRecipe, setAlert, history }) => {
   const usedIngredients = useSelector(
     (state) => state.editRecipe.recipe.ingredients,
   );
@@ -75,6 +77,8 @@ const EditRecipe = ({ updateRecipe }) => {
 
       //   setColumns(columnsFromBackend);
       setRecipeName('');
+      setAlert('Przepis zaktualizowany', 'success');
+      history.push('/');
     }
   };
 
@@ -129,4 +133,6 @@ const EditRecipe = ({ updateRecipe }) => {
   );
 };
 
-export default connect(null, { updateRecipe })(EditRecipe);
+export default connect(null, { updateRecipe, setAlert })(
+  withRouter(EditRecipe),
+);
