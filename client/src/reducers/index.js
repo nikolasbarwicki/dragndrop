@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import columns from './columns';
 import recipes from './recipes';
+import editRecipe from './editRecipe';
 
 export default combineReducers({
-  columns,
   recipes,
+  editRecipe,
 });

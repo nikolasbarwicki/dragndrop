@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
 
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
+import { createRecipe } from '../actions/recipes';
 
 import { onDragEnd } from '../utils/onDragEnd';
 import DraggableItem from './DraggableItem';
@@ -34,24 +33,33 @@ const Input = styled.input`
   outline: none;
 `;
 
-const AddRecipe = () => {
-  const dispatch = useDispatch();
-  const columnsFromBackend = useSelector((state) => state.columns);
+const AddRecipe = ({ createRecipe }) => {
+  const initialState = {
+    ingredientsColumn: {
+      items: [
+        { id: '1', content: 'banan' },
+        { id: '2', content: 'marchewka' },
+        { id: '3', content: 'burak' },
+        { id: '4', content: 'jajko' },
+        { id: '5', content: 'ziemniak' },
+      ],
+    },
+    recipeColumn: {
+      items: [],
+    },
+  };
 
-  const [columns, setColumns] = useState(columnsFromBackend);
+  const [columns, setColumns] = useState(initialState);
   const [recipeName, setRecipeName] = useState('');
 
   const addRecipe = () => {
     if (columns.recipeColumn.items.length) {
-      dispatch({
-        type: 'ADD_ITEM',
-        payload: {
-          id: uuidv4(),
-          name: recipeName || 'Przepis',
-          ingredients: columns.recipeColumn.items,
-        },
+      createRecipe({
+        name: recipeName || 'Przepis',
+        ingredients: columns.recipeColumn.items,
       });
-      setColumns(columnsFromBackend);
+
+      setColumns(initialState);
       setRecipeName('');
     }
   };
@@ -80,6 +88,7 @@ const AddRecipe = () => {
                       {column.items.map((item, index) => {
                         return (
                           <DraggableItem
+                            key={item.id}
                             id={item.id}
                             index={index}
                             content={item.content}
@@ -105,4 +114,4 @@ const AddRecipe = () => {
   );
 };
 
-export default AddRecipe;
+export default connect(null, { createRecipe })(AddRecipe);

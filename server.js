@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require('cors');
 const connectDB = require('./config/database');
 
 const app = express();
@@ -15,6 +16,8 @@ const recipes = require('./routes/recipes');
 
 // Body parser
 app.use(express.json());
+
+app.use(cors());
 
 // Mount routers
 app.use('/api/recipes', recipes);

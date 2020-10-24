@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
 
+import { connect } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { getRecipes, getRecipe, deleteRecipe } from '../actions/recipes';
 
 import Button from './Button';
 
@@ -30,44 +32,48 @@ const ListItem = styled.li`
   margin-bottom: 1rem;
 `;
 
-const Recipes = () => {
-  const dispatch = useDispatch();
+const Recipes = ({ getRecipes, deleteRecipe, getRecipe, history }) => {
+  useEffect(() => {
+    getRecipes();
+  }, [getRecipes]);
+
   const recipes = useSelector((state) => state.recipes);
 
   return (
     <Wrapper>
       <h1 style={{ marginBottom: '4rem' }}>Przepisy</h1>
-      {!recipes.length && <span>Dodaj nowe przepisy...</span>}
-      {recipes.map((recipe) => (
-        <div>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <h3>{recipe.name}, potrzebne składniki</h3>
-            <Button
-              onClick={() =>
-                dispatch({
-                  type: 'DELETE_ITEM',
-                  payload: recipe.id,
-                })
-              }
+      {!recipes.recipes && <span>Dodaj nowe przepisy...</span>}
+      {recipes.recipes &&
+        recipes.recipes.map((recipe) => (
+          <div key={recipe._id}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
             >
-              Usuń przepis
-            </Button>
+              <h3>{recipe.name}, potrzebne składniki</h3>
+              <div>
+                <Button onClick={() => getRecipe(recipe._id, history)}>
+                  Edytuj przepis
+                </Button>
+                <Button onClick={() => deleteRecipe(recipe._id)}>
+                  Usuń przepis
+                </Button>
+              </div>
+            </div>
+            <InnerWrapper>
+              {recipe.ingredients.map((el) => (
+                <ListItem key={el.id}>{el.content}</ListItem>
+              ))}
+            </InnerWrapper>
           </div>
-          <InnerWrapper>
-            {recipe.ingredients.map((el) => (
-              <ListItem>{el.content}</ListItem>
-            ))}
-          </InnerWrapper>
-        </div>
-      ))}
+        ))}
     </Wrapper>
   );
 };
 
-export default Recipes;
+export default connect(null, { getRecipes, getRecipe, deleteRecipe })(
+  withRouter(Recipes),
+);

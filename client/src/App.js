@@ -8,6 +8,7 @@ import GlobalStyle from './styles/GlobalStyle';
 import Navigation from './components/Navigation';
 import AddRecipe from './components/AddRecipe';
 import Recipes from './components/Recipes';
+import EditRecipe from './components/EditRecipe';
 
 const App = () => {
   return (
@@ -21,6 +22,9 @@ const App = () => {
           </Route>
           <Route path="/add-recipe">
             <AddRecipe />
+          </Route>
+          <Route path="/edit-recipe">
+            <EditRecipe />
           </Route>
         </Switch>
       </Router>
