@@ -7,6 +7,10 @@ const RecipeSchema = new mongoose.Schema({
   ingredients: {
     type: Array,
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model('Recipe', RecipeSchema);

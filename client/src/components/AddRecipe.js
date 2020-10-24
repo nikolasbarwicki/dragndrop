@@ -13,6 +13,7 @@ import Button from './Button';
 const Wrapper = styled.main`
   max-width: 80rem;
   margin: 0 auto;
+  padding: 2rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: min-content 1fr min-content;
@@ -32,6 +33,7 @@ const Input = styled.input`
   font-size: 2rem;
   font-weight: bold;
   outline: none;
+  width: 100%;
 `;
 
 const AddRecipe = ({ createRecipe, setAlert }) => {
@@ -72,7 +74,7 @@ const AddRecipe = ({ createRecipe, setAlert }) => {
       <Input
         value={recipeName}
         onChange={(e) => setRecipeName(e.target.value)}
-        placeholder="Podaj nazwę przepisu"
+        placeholder="Nazwij przepis"
       />
       <DragDropContext
         onDragEnd={(result) => onDragEnd(result, columns, setColumns)}

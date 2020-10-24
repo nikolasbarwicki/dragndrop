@@ -13,6 +13,7 @@ import { setAlert } from '../actions/alert';
 const Wrapper = styled.main`
   max-width: 110rem;
   margin: 0 auto;
+  padding: 2rem;
 `;
 
 const InnerWrapper = styled.ul`
@@ -78,7 +79,7 @@ const Recipes = ({
       {!recipes.recipes && <span>Dodaj nowe przepisy...</span>}
       {recipes.recipes &&
         recipes.recipes.map((recipe) => (
-          <div key={recipe._id}>
+          <div key={recipe._id} style={{ marginBottom: '4rem' }}>
             <div
               style={{
                 display: 'flex',
