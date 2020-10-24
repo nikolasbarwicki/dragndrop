@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { FiEdit, FiTrash2 } from 'react-icons/fi';
+import { format } from 'date-fns';
+import { pl } from 'date-fns/locale';
 
 import { connect } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -84,7 +86,15 @@ const Recipes = ({
                 alignItems: 'center',
               }}
             >
-              <h3>{recipe.name}, potrzebne składniki</h3>
+              <div>
+                <h3>{recipe.name}, potrzebne składniki</h3>
+                <span>
+                  {`Data dodania:
+                  ${format(new Date(recipe.createdAt), 'iiii, dd LLLL yyyy', {
+                    locale: pl,
+                  })}`}
+                </span>
+              </div>
               <IconsWrapper>
                 <ButtonIcon onClick={() => getRecipe(recipe._id, history)}>
                   <FiEdit />
