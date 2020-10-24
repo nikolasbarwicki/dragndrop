@@ -10,7 +10,7 @@ const InnerWrapper = styled.ul`
   margin: 2rem 0;
   border-radius: 1.5rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   grid-gap: 1rem;
 `;
 

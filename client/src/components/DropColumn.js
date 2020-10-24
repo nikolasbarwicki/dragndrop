@@ -7,7 +7,7 @@ import { Droppable } from 'react-beautiful-dnd';
 const DropArea = styled.div`
   background-color: #f5f6f9;
   padding: 2rem;
-  height: 50rem;
+  min-height: 50rem;
   border-radius: 1.5rem;
 `;
 
